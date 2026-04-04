@@ -11,7 +11,6 @@ x, y = 40.0, 3.0
 pophistory = [(x, y)] 
 
 for t in 1:nsteps
-
     dx = (α*x - β*x*y) * dt 
     dy = (γ*x*y - δ*y) * dt
     
