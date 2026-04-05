@@ -43,6 +43,7 @@ function lotka_volterra(du, u, p, t)
 end
 
 ox, oy1, oy2 = lotka_volterra_euler(params, p0, dt, simtime)
+sol = ODEProblem(lotka_volterra, collect(p0), simtime, collect(params)) |> solve
 
 p1 = plot(
     ox, [oy1 oy2], 
@@ -73,9 +74,6 @@ display(combined_plot)
 
 println("Press Enter...")
 readline()
-
-prob = ODEProblem(lotka_volterra, collect(p0), simtime, collect(params))
-sol = solve(prob)
 
 p3 = plot(sol, title="Lotka-Volterra Solution", xlabel="Time", ylabel="Population",
             label=["Prey (x)" "Predator (y)"])
