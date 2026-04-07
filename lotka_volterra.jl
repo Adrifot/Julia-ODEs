@@ -3,6 +3,20 @@ using Plots.Measures
 using DifferentialEquations
 gr()
 
+"""
+Lotka-Volterra predator-prey model
+
+Equations:
+dx/dt = αx - βxy
+dy/dt = γxy - δy
+
+Params:
+α - prey growth rate
+β - prey predation rate
+γ - predator growth rate
+δ - predator death rate
+"""
+
 params = 1, 0.04, 0.01, 0.8
 dt = 0.01
 simtime = 100.0
