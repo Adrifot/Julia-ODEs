@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+	\begin{equation}
+	\begin{aligned}
+		x_t &= \frac{a}{x_{t-1}+b} \\
+		x &\rightarrow \alpha x' \\
+		\alpha x'_t &= \frac{a}{\alpha x'_{t-1} + b} = \\
+		&= \frac{a}{b (\frac{\alpha}{b}x'_{t-1} + 1)} = \\
+		&= \frac{a}{b} \frac{1}{\frac{\alpha}{b}x'_{t-1} + 1} \\
+		\alpha &= b \\
+		bx'_t &= \frac{a}{b} \frac{1}{x'_{t-1} + 1} \\
+		x'_t &= \frac{a}{b^2} \frac{1}{x'_{t-1} + 1} = \\
+		&\overset{\frac{a}{b^2}=c}{=} \frac{c}{x'_{t-1}+1}
+	\end{aligned}
+	\end{equation}
+\end{document}
