@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+	\begin{align}
+		&\begin{cases}
+			\begin{aligned}
+				x_t &= x_{t-1} + r x_{t-1} \left(1 - \frac{x_{t-1}}{K}\right)
+				- \left(1 - \frac{1}{b y_{t-1}+1}\right)x_{t-1} \\
+				y_t &= y_{t-1} - d y_{t-1} + c x_{t-1} y_{t-1}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				x &\rightarrow \alpha x' \\
+				y &\rightarrow \beta y'
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				\alpha x'_t &= \alpha x'_{t-1} + \alpha r x'_{t-1} \left(1 - \frac{\alpha x'_{t-1}}{K}\right)
+				- \left(1 - \frac{1}{\beta b y'_{t-1}+1}\right)\alpha x'_{t-1} \\
+				\beta y'_t &= \beta y'_{t-1} - \beta d y'_{t-1} + \alpha \beta c x'_{t-1} y'_{t-1}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				x'_t &= x'_{t-1} + r x'_{t-1} \left(1 - \frac{\alpha x'_{t-1}}{K}\right)
+				- \left(1 - \frac{1}{\beta b y'_{t-1}+1}\right) x'_{t-1} \\
+				y'_t &= y'_{t-1} -  d y'_{t-1} + \alpha c x'_{t-1} y'_{t-1}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				\alpha &= K \\
+				\beta &= \frac{1}{b}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				x'_t &= x'_{t-1} + rx'_{t-1} (1 - x'_{t-1}) - \left( 1 - \frac{1}{y'_{t-1}+1} \right) x'_{t-1} \\
+				y'_t &= y'_{t-1} - dy'_{t-1} + cK x'_{t-1} y'_{t-1}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		& cK = \gamma
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				x'_t &= x'_{t-1} + rx'_{t-1} (1 - x'_{t-1}) - \left( 1 - \frac{1}{y'_{t-1}+1} \right) x'_{t-1} \\
+				y'_t &= y'_{t-1} - dy'_{t-1} + \gamma x'_{t-1} y'_{t-1}
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&\begin{cases}
+			\begin{aligned}
+				x'_t &= x'_{t-1} + rx'_{t-1} (1 - x'_{t-1}) - \frac{ x'_{t-1} y'_{t-1}}{y'_{t-1}+1} \\
+				y'_t &= y'_{t-1} (1 + \gamma x'_{t-1} - d) 
+			\end{aligned}
+		\end{cases}
+		\\[1em]
+		&(r, K, b, c, d) \rightarrow (r, d, \gamma)
+	\end{align}
+\end{document}
