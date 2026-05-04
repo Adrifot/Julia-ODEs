@@ -13,7 +13,7 @@ cobweb_pts = Observable(Point2f[(x0[], 0), (x0[], logisticmap(x0[], R[]))])
 fig = Figure(size = (1200, 1000))
 
 control_panel = GridLayout()
-plot_panel    = GridLayout()
+plot_panel = GridLayout()
 
 fig[1, 1] = control_panel
 fig[1, 2] = plot_panel
@@ -69,7 +69,6 @@ rowgap!(plot_panel, 15)
 
 # --- Interaction Logic ---
 
-# Link sliders
 on(r_slider.value) do val
     R[] = val
 end
@@ -78,7 +77,6 @@ on(x0_slider.value) do val
     x0[] = val
 end
 
-# Reset logic 
 function reset_state!()
     x[] = [x0[]]
     cobweb_pts[] = [Point2f(x0[], 0), Point2f(x0[], logisticmap(x0[], R[]))]
@@ -95,7 +93,6 @@ on(reset_btn.clicks) do _
     reset_state!()
 end
 
-# Step logic
 on(step_btn.clicks) do _
     x_old = last(x[])
     x_new = logisticmap(x_old, R[])
