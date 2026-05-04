@@ -10,7 +10,7 @@ x = Observable([x0[]])
 cobweb_pts = Observable(Point2f[(x0[], 0), (x0[], logisticmap(x0[], R[]))])
 
 
-fig = Figure(size = (1200, 1000))
+fig = Figure(size = (1250, 900))
 
 control_panel = GridLayout()
 plot_panel = GridLayout()
@@ -18,7 +18,7 @@ plot_panel = GridLayout()
 fig[1, 1] = control_panel
 fig[1, 2] = plot_panel
 
-colsize!(fig.layout, 1, Fixed(260))
+colsize!(fig.layout, 1, Fixed(200))
 colsize!(fig.layout, 2, Auto())
 
 # --- Controls ---
@@ -34,10 +34,11 @@ x0_val_label = Label(control_panel[4, 2], @lift string(round($x0, digits=2)))
 step_btn  = Button(control_panel[5, 1], label = "Step")
 reset_btn = Button(control_panel[6, 1], label = "Reset")
 
-rowsize!(control_panel, 1, Fixed(30))
-rowsize!(control_panel, 2, Fixed(40))
-rowsize!(control_panel, 3, Fixed(30))
-rowsize!(control_panel, 4, Fixed(40))
+# Sliders, buttons and labels spacing
+rowsize!(control_panel, 1, Fixed(20))
+rowsize!(control_panel, 2, Fixed(30))
+rowsize!(control_panel, 3, Fixed(20))
+rowsize!(control_panel, 4, Fixed(30))
 rowsize!(control_panel, 5, Fixed(50))
 rowsize!(control_panel, 6, Fixed(50))
 
@@ -65,7 +66,7 @@ ylims!(ax2, 0, 1)
 
 rowsize!(plot_panel, 1, Fixed(300))
 rowsize!(plot_panel, 2, Fixed(300))
-rowgap!(plot_panel, 15)
+rowgap!(plot_panel, 50)
 
 # --- Interaction Logic ---
 
@@ -85,11 +86,7 @@ function reset_state!()
     xlims!(ax1, 0, 50)
 end
 
-onany(R, x0) do _, _
-    reset_state!()
-end
-
-on(reset_btn.clicks) do _
+onany(R, x0, reset_btn.clicks) do _, _, _
     reset_state!()
 end
 
@@ -125,8 +122,6 @@ lines!(ax2, cobweb_pts, color = :blue, linewidth = 1.5)
 # Logistic curve 
 y_parabola = @lift [logisticmap(val, $R) for val in xs]
 lines!(ax2, xs, y_parabola, color = :red, linewidth = 2)
-
-fig.layout.alignmode = Outside(20)
 
 display(fig)
 wait(display(fig))
