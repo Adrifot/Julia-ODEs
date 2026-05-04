@@ -7,7 +7,7 @@ logisticmap(x, R) = R * x * (1 - x)
 R  = Observable(2.0)
 x0 = Observable(0.2)
 x = Observable([x0[]])
-cobweb_pts = Observable(Point2f[(x0[], 0), (x0[], logisticmap(x0[], R[]))])
+cobweb_pts = Observable(Point2f[(x0[], 0)])
 
 
 fig = Figure(size = (1250, 900))
@@ -23,16 +23,16 @@ colsize!(fig.layout, 2, Auto())
 
 # --- Controls ---
 
-Label(control_panel[1, 1], "Growth Rate (R)", font = :bold)
-r_slider = Slider(control_panel[2, 1], range = 0:0.01:4, startvalue = 2.0)
+Label(control_panel[1, 1], "Growth Rate (R)", font=:bold)
+r_slider = Slider(control_panel[2, 1], range=0:0.01:4, startvalue=2.0)
 r_val_label = Label(control_panel[2, 2], @lift string(round($R, digits=2)))
 
-Label(control_panel[3, 1], "Initial Value (x0)", font = :bold)
-x0_slider = Slider(control_panel[4, 1], range = 0:0.01:1, startvalue = 0.2)
+Label(control_panel[3, 1], "Initial Value (x0)", font=:bold)
+x0_slider = Slider(control_panel[4, 1], range=0:0.01:1, startvalue=0.2)
 x0_val_label = Label(control_panel[4, 2], @lift string(round($x0, digits=2)))
 
-step_btn  = Button(control_panel[5, 1], label = "Step")
-reset_btn = Button(control_panel[6, 1], label = "Reset")
+step_btn  = Button(control_panel[5, 1], label="Step")
+reset_btn = Button(control_panel[6, 1], label="Reset")
 
 # Sliders, buttons and labels spacing
 rowsize!(control_panel, 1, Fixed(20))
@@ -80,7 +80,7 @@ end
 
 function reset_state!()
     x[] = [x0[]]
-    cobweb_pts[] = [Point2f(x0[], 0), Point2f(x0[], logisticmap(x0[], R[]))]
+    cobweb_pts[] = [Point2f(x0[], 0)] 
     notify(x)
     notify(cobweb_pts)
     xlims!(ax1, 0, 50)
@@ -96,8 +96,8 @@ on(step_btn.clicks) do _
 
     push!(x[], x_new)
 
+    push!(cobweb_pts[], Point2f(x_old, x_old))
     push!(cobweb_pts[], Point2f(x_old, x_new))
-    push!(cobweb_pts[], Point2f(x_new, x_new))
 
     notify(x)
     notify(cobweb_pts)
@@ -110,18 +110,21 @@ end
 # --- Plotting ---
 
 # Evolution plot
-lines!(ax1, x, color = :blue, linewidth = 2)
+lines!(ax1, x, color=:blue, linewidth=2)
 
 # y = x
 xs = 0:0.01:1
-lines!(ax2, xs, xs, linestyle = :dash, color = :black)
+lines!(ax2, xs, xs, linestyle=:dash, color=:black)
+
+# x0
+scatter!(x0, 0, marker=:circle, color=:blue, markersize=10)
 
 # Cobweb path
-lines!(ax2, cobweb_pts, color = :blue, linewidth = 1.5)
+lines!(ax2, cobweb_pts, color=:blue, linewidth=1.5)
 
 # Logistic curve 
 y_parabola = @lift [logisticmap(val, $R) for val in xs]
-lines!(ax2, xs, y_parabola, color = :red, linewidth = 2)
+lines!(ax2, xs, y_parabola, color=:red, linewidth=2)
 
 display(fig)
 wait(display(fig))
