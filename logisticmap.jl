@@ -98,8 +98,8 @@ on(step_btn.clicks) do _
 
     push!(x[], x_new)
 
-    push!(cobweb_pts[], Point2f(x_old, x_old))
     push!(cobweb_pts[], Point2f(x_old, x_new))
+    push!(cobweb_pts[], Point2f(x_new, x_new))
 
     notify(x)
     notify(cobweb_pts)
