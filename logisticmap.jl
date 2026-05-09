@@ -53,7 +53,7 @@ ax1 = Axis(plot_panel[1, 1],
     ylabel = "x"
 )
 
-plotlen = 15
+plotlen = Observable(15)
 xlims!(ax1, 0, 15)
 ylims!(ax1, 0, 1)
 
@@ -104,9 +104,9 @@ on(step_btn.clicks) do _
     notify(x)
     notify(cobweb_pts)
 
-    if length(x[]) > plotlen
-        xlims!(ax1, 0, length(x[]) + 4)
-        global plotlen += 5
+    if length(x[]) > plotlen[]
+        plotlen[] += 5
+        xlims!(ax1, 0, plotlen[])
     end
 end
 
