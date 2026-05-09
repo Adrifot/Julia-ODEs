@@ -33,6 +33,7 @@ x0_val_label = Label(control_panel[4, 2], @lift string(round($x0, digits=2)))
 
 step_btn  = Button(control_panel[5, 1], label="Step")
 reset_btn = Button(control_panel[6, 1], label="Reset")
+bifdiag_btn = Button(control_panel[7, 1], label="Bifurcation Diagram")
 
 # Sliders, buttons and labels spacing
 rowsize!(control_panel, 1, Fixed(20))
@@ -41,6 +42,7 @@ rowsize!(control_panel, 3, Fixed(20))
 rowsize!(control_panel, 4, Fixed(30))
 rowsize!(control_panel, 5, Fixed(50))
 rowsize!(control_panel, 6, Fixed(50))
+rowsize!(control_panel, 7, Fixed(50))
 
 rowgap!(control_panel, 10)
 
@@ -107,6 +109,36 @@ on(step_btn.clicks) do _
         xlims!(ax1, 0, length(x[]) + 4)
         global plotlen += 5
     end
+end
+
+on(bifdiag_btn.clicks) do _
+    R_steps = 10000
+    iters_per_R = 250 
+    Rs = range(1.0, 4.0, length=R_steps)
+    
+    plot_Rs = Vector{Float64}(undef, R_steps * iters_per_R)
+    plot_xs = Vector{Float64}(undef, R_steps * iters_per_R)
+    
+    idx = 1
+    for (i, r) in enumerate(Rs)
+        x = 0.5
+        
+        for _ in 1:250 # Warmup
+            x = r * x * (1 - x) 
+        end
+        
+        for j in 1:iters_per_R # Collect data
+            x = r * x * (1 - x)
+            plot_Rs[idx] = r
+            plot_xs[idx] = x
+            idx += 1
+        end
+    end
+
+    fig = Figure(size=(1000, 600))
+    ax = Axis(fig[1, 1], title="Logistic Map Bifurcation", xlabel="R", ylabel="x")
+    scatter!(ax, plot_Rs, plot_xs, markersize=0.3, color=(:black, 0.25))
+    display(fig) 
 end
 
 # --- Plotting ---
