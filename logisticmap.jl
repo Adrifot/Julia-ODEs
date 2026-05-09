@@ -52,7 +52,8 @@ ax1 = Axis(plot_panel[1, 1],
     ylabel = "x"
 )
 
-xlims!(ax1, 0, 25)
+plotlen = 15
+xlims!(ax1, 0, 15)
 ylims!(ax1, 0, 1)
 
 ax2 = Axis(plot_panel[2, 1],
@@ -83,7 +84,7 @@ function reset_state!()
     cobweb_pts[] = [Point2f(x0[], 0)] 
     notify(x)
     notify(cobweb_pts)
-    xlims!(ax1, 0, 50)
+    xlims!(ax1, 0, 15)
 end
 
 onany(R, x0, reset_btn.clicks) do _, _, _
@@ -102,8 +103,9 @@ on(step_btn.clicks) do _
     notify(x)
     notify(cobweb_pts)
 
-    if length(x[]) > 50
-        xlims!(ax1, 0, length(x[]) + 10)
+    if length(x[]) > plotlen
+        xlims!(ax1, 0, length(x[]) + 4)
+        global plotlen += 5
     end
 end
 
