@@ -9,7 +9,6 @@ x0 = Observable(0.2)
 x = Observable([x0[]])
 cobweb_pts = Observable(Point2f[(x0[], 0)])
 
-
 fig = Figure(size = (1250, 900))
 
 control_panel = GridLayout()
@@ -135,7 +134,7 @@ on(bifdiag_btn.clicks) do _
         end
     end
 
-    fig = Figure(size=(1000, 600))
+    fig = Figure(size = (1250, 900))
     ax = Axis(fig[1, 1], title="Logistic Map Bifurcation", 
                 xlabel="R", ylabel="x")
     vals = [1.0, 2.0, 3.0, 3.449, 3.57, 4.0]
