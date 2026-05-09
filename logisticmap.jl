@@ -136,7 +136,13 @@ on(bifdiag_btn.clicks) do _
     end
 
     fig = Figure(size=(1000, 600))
-    ax = Axis(fig[1, 1], title="Logistic Map Bifurcation", xlabel="R", ylabel="x")
+    ax = Axis(fig[1, 1], title="Logistic Map Bifurcation", 
+                xlabel="R", ylabel="x")
+    vals = [1.0, 2.0, 3.0, 3.449, 3.57, 4.0]
+    labels = ["1.0", "2.0", "(Period 2) 3.0", "(Period 4) 3.449", "(Chaos) 3.5699", "4.0"]
+    ax.xticks = (vals, labels)
+    ax.xticklabelrotation = 0.9 
+    ax.xticklabelcolor = :black 
     scatter!(ax, plot_Rs, plot_xs, markersize=0.3, color=(:black, 0.25))
     display(fig) 
 end
