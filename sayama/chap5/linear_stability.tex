@@ -1,0 +1,160 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\begin{document}
+	\section*{Task}
+	Consider the Lotka-Volterra model with prey logistic growth:
+	\begin{enumerate}
+		\item Find the system's equilibrium points.
+		\item Calculate the Jacobian matrices of the system at the equilibrium points.
+		\item Calculate the eigenvalues of the Jacobian matrices.
+		\item Discuss the results.
+	\end{enumerate}
+	
+	\section*{Solution}
+	Consider the following system of differential equations: \\
+	\begin{align}
+		&\begin{cases}
+			\begin{aligned}
+				\frac{dx}{dt} &= rx\left(1 - \frac{x}{K}\right) - a x y \vspace{0.5cm} \\[1em]
+				\frac{dy}{dt} &= b x y - d y
+ 			\end{aligned}
+		\end{cases}
+	\end{align}
+	where \\
+	\begin{itemize}
+		\item $x$: Prey population
+		\item $y$: Predator population
+		\item $r$: Prey growth rate
+		\item $K$: Prey environment carrying capacity
+		\item $a$: Predation rate
+		\item $b$: Predator reproduction rate
+		\item $d$: Predator death rate
+	\end{itemize}
+	\subsection*{1. Finding the equilibrium points}
+	\begin{align}
+		&\begin{cases}
+			\begin{aligned}
+				\frac{dx}{dt} &= 0 \\[1em]
+				\frac{dy}{dt} &= 0
+			\end{aligned}
+		\end{cases}
+		\Rightarrow
+		\begin{cases}
+			\begin{aligned}
+				&rx \left(1 - \frac{x}{K} \right) - axy = 0 \\[1em]
+				&bxy - dy = 0
+			\end{aligned}
+		\end{cases}
+		\Rightarrow
+		\begin{cases}
+			\begin{aligned} 
+				&x \left(r \left(1 - \frac{x}{K} \right) - ay \right) = 0 \\[1em]
+				&y \left(bx - d \right) = 0
+			\end{aligned}
+		\end{cases}
+	\end{align}
+	Therefore, one of the equilibrium points is $(x=0, y=0)$ $\rightarrow$ total extinction. \\ \\
+	Now to analyze the case $(x \neq 0, y = 0)$: \\
+	\begin{align}
+			\begin{aligned} 
+				&r \left(1 - \frac{x}{K} \right) - ay = 0 \quad \xRightarrow{y = 0}  \quad r - \frac{rx}{K} = 0 \Rightarrow \\[1em] 
+				&\Rightarrow \frac{rx}{K} = r \quad \Rightarrow \quad x = K
+			\end{aligned}
+	\end{align}
+	Another equilibrium point is $(x=K, y=0)$ $\rightarrow$ predator extinction, prey reaches carrying capacity. \\ \\
+	Last case, $(x \neq 0, y \neq 0)$: \\
+	\begin{align}
+		&\begin{cases}
+			\begin{aligned}
+				&r \left(1 - \frac{x}{K} \right) - ay = 0 \\[1em]
+				&bx - d = 0
+			\end{aligned}
+		\end{cases} \\
+		&bx - d = 0 \quad \Rightarrow \quad x = \frac{d}{b} \\ 
+		\intertext{By substituting $x$ in the first equation we obtain:}
+		&r \left(1 - \frac{d}{bK} \right) - ay = 0 \quad \Rightarrow \quad y = \frac{r(bK - d)}{abK}
+	\end{align}
+	The final equilibrium point is $(x = \frac{d}{b}, y = \frac{r(bK - d)}{abK})$ $\rightarrow$ coexistence.
+	
+	\subsection*{2. Calculating the Jacobian matrix}
+	\begin{align}
+		\intertext{Let $\frac{dx}{dt} = f(x, y)$ and $\frac{dy}{dt} = g(x, y)$. Then the associated Jacobian is:}
+		J = \begin{bmatrix}
+			\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+			\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+		\end{bmatrix}
+		\intertext{By calculating the partial derivatives we obtain:}
+		J = \begin{bmatrix}
+			r - \frac{2rx}{K} - ay & -ax \\
+			by & bx - d
+		\end{bmatrix}
+	\end{align}
+	
+	\subsection*{3. Evaluating the Jacobian at the equilibrium points}
+	\textbf{Case 1: ($x=0, y=0$)}
+	\begin{align}
+		J = \begin{bmatrix}
+			r & 0 \\ 0 & -d
+		\end{bmatrix}
+	\end{align}
+	\textbf{Case 2: ($x=K, y=0$)}
+	\begin{align}
+		J = \begin{bmatrix}
+			-r & -aK \\ 0 & bK - d
+		\end{bmatrix}
+	\end{align}
+	\textbf{Case 3: $(x = \frac{d}{b}, y = \frac{r(bK - d)}{abK})$}
+	\begin{align}
+		J = \begin{bmatrix}
+			-\frac{rd}{bK} & -\frac{ad}{b} \\
+			\frac{r(bK-rd)}{aK} & 0
+		\end{bmatrix}
+	\end{align}
+	
+	\subsection*{3. Calculating eigenvalues}
+	General formula:
+	\begin{align}
+		&\det(J - \lambda I) = 0
+		\intertext{For $2 \times 2$ matrices:}
+		&\lambda^2 -\lambda \operatorname{Tr}(J) + \det (J) = 0 \Leftrightarrow \\[1em] \Leftrightarrow &\lambda_{1,2} = \frac{\operatorname{Tr}(J) \pm \sqrt{\operatorname{Tr}(J)^2 - 4 \det(J)}}{2}
+	\end{align}
+	
+	\textbf{Case 1}
+	\begin{align}
+		\left.
+		\begin{array}{l}
+			\operatorname{Tr}(J) = r - d \\
+			\det(J) = -rd
+		\end{array}
+		\right\}
+		&\Rightarrow
+		\lambda^2 - \lambda(r-d) -rd = 0 \Rightarrow \\
+		&\Rightarrow (\lambda-r)(\lambda+d)=0 \notag \Rightarrow \\[1em]
+		&\Rightarrow \begin{cases}
+			\lambda_1 = r \\
+			\lambda_2 = -d
+		\end{cases}
+	\end{align}
+	
+	\textbf{Case 2}
+	\begin{align}
+		& \det(J - \lambda I) = \begin{vmatrix}
+			-r-\lambda & -aK \\
+			0 & bK - d - \lambda
+		\end{vmatrix} = (-r-\lambda)(bK-d-\lambda) = 0 \Rightarrow \notag \\[1em]
+		&\Rightarrow \begin{cases}
+			-r-\lambda = 0 \\
+			bK-d-\lambda = 0
+		\end{cases}
+		\Rightarrow 
+		\begin{cases}
+			\lambda_1 = -r \\
+			\lambda_2 = bK - d
+		\end{cases} 
+	\end{align}
+	\\ \\
+	\textbf{Case 3} \\
+	To be solved later...
+\end{document}
