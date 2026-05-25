@@ -24,13 +24,13 @@
 	\end{align}
 	where \\
 	\begin{itemize}
-		\item $x$: Prey population
-		\item $y$: Predator population
-		\item $r$: Prey growth rate
-		\item $K$: Prey environment carrying capacity
-		\item $a$: Predation rate
-		\item $b$: Predator reproduction rate
-		\item $d$: Predator death rate
+		\item $x\ge0$: Prey population
+		\item $y\ge0$: Predator population
+		\item $r>0$: Prey growth rate
+		\item $K>0$: Prey environment carrying capacity
+		\item $a>0$: Predation rate
+		\item $b>0$: Predator reproduction rate
+		\item $d>0$: Predator death rate
 	\end{itemize}
 	\subsection*{1. Finding the equilibrium points}
 	\begin{align}
@@ -82,17 +82,17 @@
 	\begin{align}
 		\intertext{Let $\frac{dx}{dt} = f(x, y)$ and $\frac{dy}{dt} = g(x, y)$. Then the associated Jacobian is:}
 		J = \begin{bmatrix}
-			\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+			\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\[0.5em]
 			\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
 		\end{bmatrix}
 		\intertext{By calculating the partial derivatives we obtain:}
 		J = \begin{bmatrix}
-			r - \frac{2rx}{K} - ay & -ax \\
+			r - \frac{2rx}{K} - ay & -ax \\[0.5em]
 			by & bx - d
 		\end{bmatrix}
 	\end{align}
 	
-	\subsection*{3. Evaluating the Jacobian at the equilibrium points}
+	\subsubsection*{2.1. Evaluating the Jacobian at the equilibrium points}
 	\textbf{Case 1: ($x=0, y=0$)}
 	\begin{align}
 		J = \begin{bmatrix}
@@ -108,8 +108,8 @@
 	\textbf{Case 3: $(x = \frac{d}{b}, y = \frac{r(bK - d)}{abK})$}
 	\begin{align}
 		J = \begin{bmatrix}
-			-\frac{rd}{bK} & -\frac{ad}{b} \\
-			\frac{r(bK-rd)}{aK} & 0
+			-\frac{rd}{bK} & -\frac{ad}{b} \\[0.5em]
+			\frac{r(bK-d)}{aK} & 0
 		\end{bmatrix}
 	\end{align}
 	
@@ -120,7 +120,7 @@
 		\intertext{For $2 \times 2$ matrices:}
 		&\lambda^2 -\lambda \operatorname{Tr}(J) + \det (J) = 0 \Leftrightarrow \\[1em] \Leftrightarrow &\lambda_{1,2} = \frac{\operatorname{Tr}(J) \pm \sqrt{\operatorname{Tr}(J)^2 - 4 \det(J)}}{2}
 	\end{align}
-	
+	\\[1em]
 	\textbf{Case 1}
 	\begin{align}
 		\left.
@@ -137,8 +137,8 @@
 			\lambda_2 = -d
 		\end{cases}
 	\end{align}
-	
-	\textbf{Case 2}
+	\\[1em]
+	\textbf{Case 2} 
 	\begin{align}
 		& \det(J - \lambda I) = \begin{vmatrix}
 			-r-\lambda & -aK \\
@@ -154,7 +154,50 @@
 			\lambda_2 = bK - d
 		\end{cases} 
 	\end{align}
-	\\ \\
-	\textbf{Case 3} \\
-	To be solved later...
+	\\[1em]
+	\textbf{Case 3} 
+	\begin{align}
+		&\left.
+		\begin{array}{l}
+			\operatorname{Tr}(J) = -\frac{rd}{bK} \\[0.5em]
+			\det(J) = rd \left(1 -\frac{d}{bK} \right)
+		\end{array}
+		\right\} \Rightarrow \lambda^2 + \frac{rd}{bK}\lambda + rd\left(1-\frac{d}{bK}\right) = 0 \Rightarrow \notag \\[1em]
+		&\Rightarrow \lambda_{1,2} = \frac{-\frac{rd}{bK} \pm \sqrt{\left(\frac{rd}{bK}\right)^2 - 4rd\left(1-\frac{d}{bK}\right)}}{2} \Rightarrow \\[1em]
+		&\Rightarrow \lambda_{1,2} = \frac{1}{2} \left(-\frac{rd}{bK} \pm \sqrt{\frac{r^2 d^2}{b^2 K^2} + \frac{4rd^2}{bK}-4rd} \right)
+	\end{align}
+	
+	\subsection*{4. Discussing the Results}
+	\subsubsection*{Case 1}
+	\begin{equation}
+		\begin{cases}
+			\lambda_1 = r > 0 \\
+			\lambda_2 = -d < 0
+		\end{cases}
+	\end{equation}
+	The eigenvalues have opposite signs $\Rightarrow$ point $(0, 0)$ is an \emph{unstable} \textbf{saddle point}. Any (infinitesimally) small positive perturbation of the $x$ value (prey population) will lead to prey exponential growth until reaching carrying capacity $K$.
+	
+	\subsubsection*{Case 2}
+	\begin{equation}
+		\begin{cases}
+			\lambda_1 = -r < 0 \\
+			\lambda_2 = bK-d
+		\end{cases}
+	\end{equation}
+	\begin{itemize}
+		\item If $bK-d < 0$ i.e. $d > bK$ then $\lambda_2 < 0$, both eigenvalues are negative and the point is a \textbf{stable node}.
+		\item If $bK-d > 0$ i.e. $d < bK$ then $\lambda_2 > 0$, eigenvalues have opposite signs and the point is an unstable \textbf{saddle point}. Any small positive perturbation of $y$ will destabilize the system.
+		\item If $bK - d = 0$ then $\lambda_2 = 0$, which leads to a \textbf{transcritical bifurcation}.
+	\end{itemize}
+		
+	\subsubsection*{Case 3}
+	\begin{equation}
+	\lambda_{1,2} = \frac{1}{2} \left(-\frac{rd}{bK} \pm \sqrt{\frac{r^2 d^2}{b^2 K^2} + \frac{4rd^2}{bK}-4rd} \right)
+	\end{equation}
+	Let $\lambda_{1,2} = \frac{1}{2} (\alpha \pm \beta)$. Then:
+	\begin{itemize}
+		\item $\alpha < 0 \quad \forall r, d, b, K >0$. 
+		\item If $\beta \ge 0$ then the system reaches a \textbf{stable node}.
+		\item If $\beta < 0$ then the eigenvalues are complex conjugates with negative real parts, which characterize the point as a \textbf{stable spiral focus} (also called a \emph{spiral sink}).
+	\end{itemize}
 \end{document}
