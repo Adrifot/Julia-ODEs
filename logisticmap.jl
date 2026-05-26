@@ -111,9 +111,9 @@ on(step_btn.clicks) do _
 end
 
 on(bifdiag_btn.clicks) do _
-    R_steps = 10000
-    iters_per_R = 250 
-    Rs = range(1.0, 4.0, length=R_steps)
+    R_steps = 25000
+    iters_per_R = 500 
+    Rs = range(2.0, 4.0, length=R_steps)
     
     plot_Rs = Vector{Float64}(undef, R_steps * iters_per_R)
     plot_xs = Vector{Float64}(undef, R_steps * iters_per_R)
@@ -122,7 +122,7 @@ on(bifdiag_btn.clicks) do _
     for (i, r) in enumerate(Rs)
         x = 0.5
         
-        for _ in 1:250 # Warmup
+        for _ in 1:1000 # Warmup
             x = r * x * (1 - x) 
         end
         
@@ -137,8 +137,8 @@ on(bifdiag_btn.clicks) do _
     fig = Figure(size = (1250, 900))
     ax = Axis(fig[1, 1], title="Logistic Map Bifurcation", 
                 xlabel="R", ylabel="x")
-    vals = [1.0, 2.0, 3.0, 3.449, 3.57, 4.0]
-    labels = ["1.0", "2.0", "(Period 2) 3.0", "(Period 4) 3.449", "(Chaos) 3.5699", "4.0"]
+    vals = [2.0, 3.0, 3.449, 3.57, 4.0]
+    labels = ["2.0", "(Period 2) 3.0", "(Period 4) 3.449", "(Chaos) 3.5699", "4.0"]
     ax.xticks = (vals, labels)
     ax.xticklabelrotation = 0.9 
     ax.xticklabelcolor = :black 
@@ -165,5 +165,4 @@ lines!(ax2, cobweb_pts, color=:blue, linewidth=1.5)
 y_parabola = @lift [logisticmap(val, $R) for val in xs]
 lines!(ax2, xs, y_parabola, color=:red, linewidth=2)
 
-display(fig)
 wait(display(fig))
