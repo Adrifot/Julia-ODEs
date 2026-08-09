@@ -1,4 +1,5 @@
 using GLMakie
+using Random
 
 # ----- CA Logic -----
 
@@ -20,4 +21,15 @@ function step(row::AbstractVector{Bool}, ruletable::NTuple{8, Bool}; wrap::Bool=
     return next
 end
 
+function get_initialrow(init::Symbol; width::Int=101)
+    row = falses(width)
+    if init == :single
+        row[width÷2 + 1] = true
+    elseif init == :random
+        row = rand(Bool, width)
+    else
+        throw(ArgumentError("Wrong value for `init` parameter. Use either `:single` or `:random`."))
+    end
+    return row
+end
 
