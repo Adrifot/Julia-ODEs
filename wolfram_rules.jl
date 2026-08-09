@@ -7,15 +7,17 @@ function ruletable(rule::Int)
     return ntuple(i -> Bool((rule >> (i-1)) & 1), 8)
 end
 
-function step!(next::AbstractVector{Bool}, curr::AbstractVector{Bool}, table::NTuple{8, Bool}; 
-                wrap::Bool=true)
-    n = length(curr)
+function step(row::AbstractVector{Bool}, ruletable::NTuple{8, Bool}; wrap::Bool=true)
+    n = length(row)
+    next = similar(row)
     @inbounds for i in 1:n
-        l = wrap ? curr[mod1(i-1, n)] : (i == 1 ? false : curr[i-1])
-        c = curr[i]
-        r = wrap ? curr[mod1(i+1, n)] : (i == n ? false : curr[i+1])
+        l = wrap ? row[mod1(i-1, n)] : (i == 1 ? false : row[i-1])
+        c = row[i]
+        r = wrap ? row[mod1(i+1, n)] : (i == n ? false : row[i+1])
         idx = (l << 2) | (c << 1) | r
-        next[i] = table[idx+1]
+        next[i] = ruletable[idx+1]
     end
     return next
 end
+
+
