@@ -1,3 +1,8 @@
+# run with:
+# > julia
+# > using Revise
+# > includet("wolfram_rules.jl")
+
 using GLMakie
 using Random
 
@@ -42,3 +47,15 @@ function computegrid(init::Symbol, rule::Int; width::Int=101, generations::Int=1
     end
     return grid
 end
+
+
+# ----- Makie code -----
+
+function getfigure(init::Symbol, rule::Int)
+    fig = Figure()
+    ax = Axis(fig[1, 1]; yreversed=true)
+    grid = computegrid(init, rule)
+    heatmap!(ax, grid'; colormap=[:white, :black])
+    wait(display(fig))
+end
+
