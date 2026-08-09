@@ -33,3 +33,12 @@ function get_initialrow(init::Symbol; width::Int=101)
     return row
 end
 
+function computegrid(init::Symbol, rule::Int; width::Int=101, generations::Int=101)
+    grid = falses(generations, width)
+    table = ruletable(rule)
+    grid[1,:] = get_initialrow(init; width)
+    @views for row in 2:generations
+        grid[row,:] = step(grid[row-1,:], table)
+    end
+    return grid
+end
