@@ -48,14 +48,18 @@ function computegrid(init::Symbol, rule::Int; width::Int=101, generations::Int=1
     return grid
 end
 
+# ----- Plotting -----
 
-# ----- Makie code -----
-
-function getfigure(init::Symbol, rule::Int)
+function getfigure(init::Symbol; width::Int=101, generations::Int=101)
     fig = Figure()
     ax = Axis(fig[1, 1]; yreversed=true)
-    grid = computegrid(init, rule)
-    heatmap!(ax, grid'; colormap=[:white, :black])
+    
+    Label(fig[2, 0], "Rule")
+    ruleslider = Slider(fig[2, 1], range=0:255, startvalue=18)
+    Label(fig[2, 2], @lift $(ruleslider.value) |> string)
+
+    grid = @lift computegrid(init, $(ruleslider.value); width, generations)'
+    heatmap!(ax, grid; colormap=[:white, :black])
     wait(display(fig))
 end
 
